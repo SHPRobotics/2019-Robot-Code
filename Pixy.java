@@ -12,12 +12,12 @@ String print;
 public Pixy() {
 pixy = new SerialPort(19200, port);
 pixy.setReadBufferSize(14);
-packets = new PixyPacket();
+packets = new PixyPacket[7];
 pExc = new PixyException(print);
 }
 //This method parses raw data from the pixy into readable integers
-public int cvt(byte[] upper, byte[] lower) {
-return (upper[1] & 0xff) << 8 | (lower[1] & 0xff);
+public int cvt(byte upper, byte lower) {
+return (((int)upper & 0xff << 8) | ((int)lower & 0xff));
 }
 public void pixyReset(){
 pixy.reset();
@@ -36,30 +36,36 @@ System.out.println("byte array length is broken");
 return null;
 }
 for (int i = 0; i <= 16; i++) {
-int syncWord = cvt(rawData, rawData); //Parse first 2 bytes
+int syncWord = cvt(rawData[i+1], rawData[i+0]); //Parse first 2 bytes
 if (syncWord == 0xaa55) { //Check is first 2 bytes equal a "sync word", which indicates the start of a packet of valid data
-syncWord = cvt(rawData, rawData); //Parse the next 2 bytes
+syncWord = cvt(rawData[i+3], rawData[i+2]); //Parse the next 2 bytes
 if (syncWord != 0xaa55){ //Shifts everything in the case that one syncword is sent
 i -= 2;
 }
 //This next block parses the rest of the data
-Checksum = cvt(rawData, rawData);
-Sig = cvt(rawData, rawData);
+Checksum = cvt(rawData[i+5], rawData[i+4]);
+Sig = cvt(rawData[i+7], rawData[i+6]);
 if(Sig <= 0 || Sig > packets.length){
 break;
 }
 packets[Sig - 1] = new PixyPacket();
-packets[Sig - 1].X = cvt(rawData, rawData);
-packets[Sig - 1].Y = cvt(rawData, rawData);
-packets[Sig - 1].Width = cvt(rawData, rawData);
-packets[Sig - 1].Height = cvt(rawData, rawData);
+packets[Sig - 1].x = cvt(rawData[i+9], rawData[i+8]);
+packets[Sig - 1].y = cvt(rawData[i+11], rawData[i+10]);
+packets[Sig - 1].width = cvt(rawData[i+13], rawData[i+12]);
+packets[Sig - 1].height = cvt(rawData[i+15], rawData[i+14]);
+
 //Checks whether the data is valid using the checksum *This if block should never be entered*
-if (Checksum != Sig + packets[Sig - 1].X + packets[Sig - 1].Y + packets[Sig - 1].Width + packets[Sig - 1].Height) {
+if (Checksum != Sig + packets[Sig - 1].x + packets[Sig - 1].y + packets[Sig - 1].width + packets[Sig - 1].height) {
 packets[Sig - 1] = null;
 throw pExc;
 }
 break;
 }
 }
+//Assighns our packet to a temp packet, then deletes the dataso that we dont return old data
+
+PixyPacket pkt = packets[Signature - 1];
+packets[Signature - 1] = null;
+return pkt;
 }
 }
