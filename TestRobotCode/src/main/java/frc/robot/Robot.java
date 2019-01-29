@@ -7,8 +7,12 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
@@ -28,17 +32,23 @@ public class Robot extends IterativeRobot {
     //Motors
     Spark leftDrive = new Spark(0);
     Spark rightDrive = new Spark(1);
+    Victor hmotor = new Victor(2);
 
+    //WPI_TalonSRX talon1 = new WPI_TalonSRX(1);
+    //TalonSRX tal2 = new TalonSRX(2);
+  
     //Joystics
-    Joystick leftJoy = new Joystick(0);
+    Joystick leftJoy = new Joystick(2);
     Joystick rightJoy = new Joystick(1);
+    XboxController xbox = new XboxController(0);
     
     //Classes 
     Drive drive = new Drive(leftJoy, rightJoy, leftDrive, rightDrive);
+    Hatch hatch = new Hatch(xbox, hmotor);
 
     //Vision
-    Pixy vision = new Pixy();
-
+    Vision vision = new Vision();
+  
   @Override
   public void robotInit() {
 
@@ -73,12 +83,9 @@ public class Robot extends IterativeRobot {
   public void teleopPeriodic() {
 
     drive.linearDrive();
-    try {
-      vision.readPacket(2);  
-    } 
-    catch (PixyException e) {
-      System.out.println("I think some shit just went Sicko Mode");
-    }
+    vision.testPixy();
+    hatch.rotate();
+
   }
 
   /**
