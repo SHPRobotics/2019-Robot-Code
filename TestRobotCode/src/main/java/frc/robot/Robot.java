@@ -33,6 +33,8 @@ public class Robot extends IterativeRobot {
     Spark leftDrive = new Spark(0);
     Spark rightDrive = new Spark(1);
     Victor hmotor = new Victor(2);
+    Victor bmotor = new Victor(3);
+    Victor amotor = new Victor(4);
 
     //WPI_TalonSRX talon1 = new WPI_TalonSRX(1);
     //TalonSRX tal2 = new TalonSRX(2);
@@ -45,6 +47,8 @@ public class Robot extends IterativeRobot {
     //Classes 
     Drive drive = new Drive(leftJoy, rightJoy, leftDrive, rightDrive);
     Hatch hatch = new Hatch(xbox, hmotor);
+    Ball ball = new Ball(xbox, bmotor);
+    Arm arm = new Arm(xbox, amotor);
 
     //Vision
     Vision vision = new Vision();
