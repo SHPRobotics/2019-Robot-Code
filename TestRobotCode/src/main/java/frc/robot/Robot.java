@@ -30,10 +30,10 @@ public class Robot extends IterativeRobot {
     Compressor airTank = new Compressor();
 
     //Motors
-    Spark leftDrive = new Spark(0);
-    Spark rightDrive = new Spark(1);
-    Victor hmotor = new Victor(2);
-    Victor bmotor = new Victor(3);
+    Spark leftDrive = new Spark(9);
+    Spark rightDrive = new Spark(8);
+    Victor hmotor = new Victor(5);
+    Victor bmotor = new Victor(6);
     Victor amotor = new Victor(4);
 
     //WPI_TalonSRX talon1 = new WPI_TalonSRX(1);
@@ -89,6 +89,8 @@ public class Robot extends IterativeRobot {
     drive.linearDrive();
     vision.testPixy();
     hatch.rotate();
+    ball.rotate();
+    arm.rotate();
 
   }
 
