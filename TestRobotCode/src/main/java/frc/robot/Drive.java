@@ -22,11 +22,31 @@ public class Drive {
     
     public void linearDrive() {
         
-        ld.setSpeed(-lj.getY());
-        rd.setSpeed(rj.getY());
+        if(lj.getY() > 0.1 || lj.getY() < -0.1) {
 
-    }
+            ld.setSpeed(-lj.getY());
+
+        }
+
+        else {
+
+            ld.setSpeed(0);
+
+        }
+
+        if(rj.getY() > 0.1 || rj.getY() < -0.1) {
+
+            rd.setSpeed(rj.getY());
+
+        }
+
+        else {
+
+            rd.setSpeed(0);
+
+        }
+
+    }    
 
     
-
 }

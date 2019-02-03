@@ -9,10 +9,10 @@ public class Ball {
     private XboxController xbox;
     private Victor motor;
 
-    public Ball (XboxController x, Victor v) {
+    public Ball (XboxController xboxController, Victor ballMotor) {
 
-        xbox = x;
-        motor = v;
+        xbox = xboxController;
+        motor = ballMotor;
 
     }
 
@@ -25,7 +25,7 @@ public class Ball {
          }
          else if (xbox.getY(Hand.kRight) < -.1) {
  
-             motor.setSpeed(-.75*(xbox.getTriggerAxis(Hand.kRight)));
+             motor.setSpeed(0.75*(xbox.getY(Hand.kRight)));
  
          }
          else{

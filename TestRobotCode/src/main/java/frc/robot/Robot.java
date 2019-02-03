@@ -7,8 +7,7 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
+//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Victor;
@@ -30,19 +29,19 @@ public class Robot extends IterativeRobot {
     Compressor airTank = new Compressor();
 
     //Motors
-    Spark leftDrive = new Spark(9);
-    Spark rightDrive = new Spark(8);
+    Spark leftDrive = new Spark(8);
+    Spark rightDrive = new Spark(7);
     Victor hmotor = new Victor(5);
     Victor bmotor = new Victor(6);
-    Victor amotor = new Victor(4);
+    Victor amotor = new Victor(9);
 
     //WPI_TalonSRX talon1 = new WPI_TalonSRX(1);
     //TalonSRX tal2 = new TalonSRX(2);
   
     //Joystics
-    Joystick leftJoy = new Joystick(2);
+    Joystick leftJoy = new Joystick(0);
     Joystick rightJoy = new Joystick(1);
-    XboxController xbox = new XboxController(0);
+    XboxController xbox = new XboxController(2);
     
     //Classes 
     Drive drive = new Drive(leftJoy, rightJoy, leftDrive, rightDrive);
@@ -51,8 +50,8 @@ public class Robot extends IterativeRobot {
     Arm arm = new Arm(xbox, amotor);
 
     //Vision
-    Vision vision = new Vision();
-  
+    Limelight vision = new Limelight(rightJoy);
+    
   @Override
   public void robotInit() {
 
@@ -87,10 +86,10 @@ public class Robot extends IterativeRobot {
   public void teleopPeriodic() {
 
     drive.linearDrive();
-    vision.testPixy();
     hatch.rotate();
     ball.rotate();
     arm.rotate();
+    vision.getCoor();
 
   }
 

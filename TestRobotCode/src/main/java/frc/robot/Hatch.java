@@ -9,10 +9,10 @@ public class Hatch {
     private Victor motor;
     private XboxController xbox;
 
-    public Hatch (XboxController x, Victor v){
+    public Hatch (XboxController xboxController, Victor hatchMotor){
         
-        xbox = x;
-        motor = v;
+        xbox = xboxController;
+        motor = hatchMotor;
 
     }
 

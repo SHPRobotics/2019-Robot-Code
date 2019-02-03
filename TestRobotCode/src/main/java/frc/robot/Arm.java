@@ -9,25 +9,25 @@ public class Arm {
     private XboxController xbox;
     private Victor motor;
 
-    public Arm (XboxController x, Victor v){
+    public Arm (XboxController xboxController, Victor armMotor){
         
         
-        xbox = x;
-        motor = v;
+        xbox = xboxController;
+        motor = armMotor;
 
 
     }
 
     public void rotate() {
 
-        if (xbox.getY(Hand.kLeft) > .1) {
+        if (xbox.getY(Hand.kLeft) > .2) {
 
-           motor.setSpeed((xbox.getY(Hand.kLeft)));
+           motor.setSpeed((xbox.getRawAxis(1)));
         
         }
-        else if (xbox.getY(Hand.kLeft) < -.1) {
+        else if (xbox.getY(Hand.kLeft) < -.2) {
 
-            motor.setSpeed(-(xbox.getTriggerAxis(Hand.kLeft)));
+            motor.setSpeed((xbox.getRawAxis(1)));
 
         }
         else{
